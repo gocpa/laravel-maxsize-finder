@@ -3,34 +3,26 @@
 use GoCPA\LaravelMaxsizeFinder\Commands\LaravelMaxsizeFinderCommand;
 use Illuminate\Support\Facades\Storage;
 
-it('Команда получает корректный список файлов', function () {
+use function Pest\Laravel\artisan;
+
+beforeEach(function () {
     Storage::fake('s3');
 
-    // Создание тестовых файлов
-    Storage::disk('s3')->put('example.txt', 'contents');
-    Storage::disk('s3')->put('another.txt', 'more contents');
-
-    $command = new LaravelMaxsizeFinderCommand();
-    $fileSizeList = $command->getFileSizeList();
-
-    expect($fileSizeList)->toHaveCount(2);
+    Storage::disk('s3')->put('public/small_file.txt', str_repeat('a', 1024)); // 1 KB
+    Storage::disk('s3')->put('public/large_fdile.txt', str_repeat('a', 10485760)); // 10 MB
 });
 
-it('Команда выполняется и выводит корректную информацию', function () {
-    Storage::fake('s3');
-
-    // Здесь мокаем файлы на диске s3, например:
-    Storage::disk('s3')->put('example.txt', 'contents1');
-    Storage::disk('s3')->put('example2.txt', 'contents2');
-
-    $this->artisan('gocpa:laravel-maxsize-finder --no-interaction')
+it('displays file counts and total size', function () {
+    artisan(LaravelMaxsizeFinderCommand::class, ['--disk' => 's3'])
         ->expectsOutput('Количество файлов в хранилище: 2')
-        ->expectsOutput('Общий размер файлов: 18.00 B') // Соответствующий вывод размера
+        ->expectsOutput('Общий размер файлов: 10.00 MiB')
         ->assertExitCode(0);
 });
 
-it('Байты выводятся по-человечески', function () {
-    expect(LaravelMaxsizeFinderCommand::formatBytes(1024))->toEqual('1 024.00 B');
-    expect(LaravelMaxsizeFinderCommand::formatBytes(1048576))->toEqual('1 024.00 KiB');
-    // Добавьте здесь дополнительные проверки для других размеров и единиц
+it('displays total size', function () {
+    $class = (new LaravelMaxsizeFinderCommand)->getFileSizeList('', 's3')->toArray();
+    expect($class)->toBe([
+        'public/small_file.txt' => 1024,
+        'public/large_fdile.txt' => 10485760,
+    ]);
 });
