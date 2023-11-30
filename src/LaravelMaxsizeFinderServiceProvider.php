@@ -2,9 +2,9 @@
 
 namespace GoCPA\LaravelMaxsizeFinder;
 
+use GoCPA\LaravelMaxsizeFinder\Commands\LaravelMaxsizeFinderCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use GoCPA\LaravelMaxsizeFinder\Commands\LaravelMaxsizeFinderCommand;
 
 class LaravelMaxsizeFinderServiceProvider extends PackageServiceProvider
 {

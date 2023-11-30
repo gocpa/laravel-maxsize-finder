@@ -2,9 +2,9 @@
 
 namespace GoCPA\LaravelMaxsizeFinder\Tests;
 
+use GoCPA\LaravelMaxsizeFinder\LaravelMaxsizeFinderServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use GoCPA\LaravelMaxsizeFinder\LaravelMaxsizeFinderServiceProvider;
 
 class TestCase extends Orchestra
 {
