@@ -70,14 +70,14 @@ class LaravelMaxsizeFinderCommand extends Command
 
         return collect($disk->listContents($location, true))
             ->filter(fn ($file) => is_a($file, FileAttributes::class))
-            ->mapWithKeys(fn (FileAttributes $fileAttributes) => [$fileAttributes->path() => $fileAttributes->fileSize()]);
+            ->mapWithKeys(fn (FileAttributes $fileAttributes) => [$fileAttributes->path() => $fileAttributes->fileSize()])
+            ->sortByDesc(fn (int $size) => $size);
     }
 
     /** Отображение файлов большого размера */
     public function displayLargeFiles(Collection $fileSizeList, int $minSize): void
     {
         $fileSizeList
-            ->sortByDesc(fn (int $size) => $size)
             ->filter(fn ($size) => $size > $minSize)
             ->map(fn ($size) => $this->formatBytes($size))
             ->tap(fn () => $this->components->twoColumnDetail('<fg=yellow>Путь к файлу</>', '<fg=yellow>Размер</>'))
