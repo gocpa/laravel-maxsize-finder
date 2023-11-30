@@ -17,9 +17,6 @@ class LaravelMaxsizeFinderServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-maxsize-finder')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-maxsize-finder_table')
             ->hasCommand(LaravelMaxsizeFinderCommand::class);
     }
 }
