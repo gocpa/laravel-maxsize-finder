@@ -34,14 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GoCPA\\LaravelMaxsizeFinder\\": "src/",
-            "GoCPA\\LaravelMaxsizeFinder\\Database\\Factories\\": "database/factories/"
+            "GoCPA\\LaravelMaxsizeFinder\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GoCPA\\LaravelMaxsizeFinder\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "GoCPA\\LaravelMaxsizeFinder\\Tests\\": "tests/"
         }
     },
     "scripts": {
